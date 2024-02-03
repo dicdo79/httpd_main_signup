@@ -1,11 +1,12 @@
-FROM centos:7
+FROM ubuntu:20.04
 
-# Apache 소스 설치를 위한 패키지
-RUN yum -y update && yum clean all
-RUN yum -y install httpd httpd-devel gcc* make && yum clean all
-RUN yum install -y wget
-RUN yum install -y make
+# Set the timezone to avoid interactive selection during tzdata installation
+ENV DEBIAN_FRONTEND=noninteractive
 
+# Update the package lists and install tzdata and other packages
+RUN apt-get update && apt-get upgrade -y \
+     && apt-get install -y tzdata \
+     && apt-get install -y apache2 apache2-dev build-essential wget
 
 # Install mod_jk
 RUN wget -P ~ https://dlcdn.apache.org/tomcat/tomcat-connectors/jk/tomcat-connectors-1.2.49-src.tar.gz --no-check-certificate \
@@ -16,11 +17,11 @@ RUN wget -P ~ https://dlcdn.apache.org/tomcat/tomcat-connectors/jk/tomcat-connec
       && ./configure --with-apxs=/usr/bin/apxs \
       && make && make install
 
-#Copy enable and load httpd conf files that it locate conf/sites
-ADD ./conf/httpd.conf /etc/httpd/conf/httpd.conf
-ADD ./conf/mod_jk.conf /etc/httpd/conf/mod_jk.conf
-ADD ./conf/workers.properties /etc/httpd/conf/workers.properties
-ADD ./conf/uri.properties /etc/httpd/conf/uri.properties
+# Copy enable and load httpd conf files that it locate conf/sites
+ADD ./conf/httpd.conf /etc/apache2/httpd.conf 
+ADD ./conf/mod_jk.conf /etc/apache2/jk.conf
+ADD ./conf/workers.properties /etc/apache2/workers.properties
+ADD ./conf/uri.properties /etc/apache2/uri.properties
 
 COPY ./htdocs /var/www/html
 
