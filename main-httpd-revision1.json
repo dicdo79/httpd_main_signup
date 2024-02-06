@@ -1,14 +1,14 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:525070377731:task-definition/main-httpd:1",
+    "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:087744393111:task-definition/project-main-http-task:1",
     "containerDefinitions": [
         {
-            "name": "main-web",
-            "image": "525070377731.dkr.ecr.ap-northeast-2.amazonaws.com/httpd_main:v1",
+            "name": "project_http_main",
+            "image": "087744393111.dkr.ecr.ap-northeast-2.amazonaws.com/project-main-http:v1",
             "cpu": 512,
-            "memoryReservation": 1536,
+            "memoryReservation": 717,
             "portMappings": [
                 {
-                    "name": "main-web-80-tcp",
+                    "name": "80-port-for-http-main",
                     "containerPort": 80,
                     "hostPort": 80,
                     "protocol": "tcp",
@@ -25,7 +25,7 @@
                 "logDriver": "awslogs",
                 "options": {
                     "awslogs-create-group": "true",
-                    "awslogs-group": "/ecs/main-httpd",
+                    "awslogs-group": "/ecs/project-main-http-task",
                     "awslogs-region": "ap-northeast-2",
                     "awslogs-stream-prefix": "ecs"
                 },
@@ -39,6 +39,6 @@
     "revision": 1,
     "volumes": [],
     "status": "ACTIVE",
-    "cpu": "1024",
-    "memory": "3072"
+    "cpu": "512",
+    "memory": "1024"
 }
