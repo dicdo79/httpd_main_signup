@@ -34,7 +34,6 @@
         }
     ],
     "family": "main-httpd",
-    "executionRoleArn": "arn:aws:iam::087744393111:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
     "revision": 1,
     "volumes": [],
